@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct 
+typedef struct node
 {
 	int data;
 	struct node * next;
@@ -18,8 +18,16 @@ typedef struct linked_list
 	void (*push_back) (struct linked_list *, int);
 	void (*insert_at_head) (struct linked_list *,int);
 	void (*destroy) (struct linked_list *);
+	void (*print_reverse) (node *);
 }linked_list;
 
+void _print_reverse (struct node * ptr)
+{
+	if (!ptr)
+		return;
+	_print_reverse(ptr->next);
+	printf ("%d ", ptr->data);
+}
 void _destroy (linked_list * ptr)
 {
 	node * temp = ptr->head;
@@ -88,6 +96,7 @@ void __initialize (linked_list * ptr)
 	ptr->insert_at_head = _insert_at_head;
 	ptr->traverse = _traverse;
 	ptr->destroy = _destroy;
+	ptr->print_reverse = _print_reverse;
 }
 void _initialize (struct linked_list * ptr)
 {
@@ -106,3 +115,4 @@ linked_list * create_list ()
 	new_list->initialize(new_list);
 	return new_list;
 }
+
